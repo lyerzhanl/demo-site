@@ -24,3 +24,15 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean install
+
+  tests:
+    runs-on: ubuntu-latest
+
+    - name: Run unit tests
+      run: mvn test
+
+    - name: Run integration tests
+      run: mvn verify
+
+    - name: Run acceptance tests
+      run: mvn test -Pacceptance
