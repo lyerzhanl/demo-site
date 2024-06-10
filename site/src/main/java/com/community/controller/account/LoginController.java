@@ -55,14 +55,14 @@ public class LoginController extends BroadleafLoginController {
             RedirectAttributes attributes) {
         if (requestCount.incrementAndGet() > requestLimit) {
             requestCount.set(0);
-            response.setStatus(HttpStatus.NOT_FOUND.value());
-            return "Error 404: Maximum number of requests exceeded";
+            response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+            return "Error 429: Too many requests";
         }
         String loginView = super.login(request, response, model);
-
+    
         RegisterCustomerForm registrationForm = buildRegistrationForm();
         model.addAttribute("registrationForm", registrationForm);
-
+    
         return loginView;
     }
 
@@ -72,6 +72,8 @@ public class LoginController extends BroadleafLoginController {
 
         return registrationForm;
     }
+
+    // do curl -k https://localhost:84443/login
 
     @RequestMapping(value = "/login/forgotPassword", method = RequestMethod.GET)
     public String forgotPassword(HttpServletRequest request, HttpServletResponse response, Model model) {
